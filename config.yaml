@@ -1,0 +1,21 @@
+# 墓碑列表生成器配置文件
+
+# 每页显示的墓碑数量
+per_page: 64
+
+# 输入数据目录名 (相对于生成器脚本位置)
+input_dir_name: "tombstones_raw"
+
+# 输出目录名 (相对于生成器脚本位置)
+output_dir_name: "dist"
+
+# 模板文件路径 (相对于生成器脚本位置)
+template_index_path: "index.html"
+template_js_path: "js/main.js"
+template_css_path: "css/styles.css"
+
+# 静态资源目录名 (相对于生成器脚本位置)
+assets_dir_name: "assets"
+
+# 模板页面文件名格式 (例如 page_2.html)
+template_page_name_format: "page_{}.html"
