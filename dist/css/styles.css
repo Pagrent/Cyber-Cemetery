@@ -1,0 +1,491 @@
+/* --- 根主题变量 (深色模式默认) --- */
+:root {
+  --bg-color: #121212; /* 深色背景 */
+  --text-color: #e0e0e0; /* 浅色文字 */
+  --card-bg-color: #1e1e1e; /* 卡片深色背景 */
+  --hover-card-bg-color: #2c2c2c; /* 卡片悬停背景 */
+  --header-border-color: #444; /* 标题分隔线 */
+  --name-color: #ffffff; /* 名字颜色 */
+  --id-color: #aaaaaa; /* ID 颜色 */
+  --modal-bg-color: rgba(30, 30, 30, 0.4); /* 模态框半透背景 */
+  --modal-border-color: #555; /* 模态框边框 */
+  --modal-text-color: #e0e0e0; /* 模态框文字 */
+  --link-color: #4da6ff; /* 链接颜色 */
+  --switcher-bg: #2c2c2c; /* 切换器背景 */
+  --switcher-border: #444; /* 切换器边框 */
+  --switcher-text: #e0e0e0; /* 切换器文字/图标颜色 - 深色模式下为浅色 */
+
+  /* --- 新增：主题切换器图标颜色变量 --- */
+  /* 定义深色主题下按钮应使用的颜色 */
+  --theme-switcher-icon-color-dark: var(--switcher-text); /* #e0e0e0 */
+  /* 定义浅色主题下按钮应使用的颜色 */
+  --theme-switcher-icon-color-light: #333; /* #333 */
+  /* --- End of 新增 --- */
+}
+
+/* --- 浅色主题变量 --- */
+.light-theme {
+  --bg-color: #e1e1e1; /* 浅色背景 */
+  --text-color: #333333; /* 深色文字 */
+  --card-bg-color: #f5f5f5; /* 卡片浅色背景 */
+  --hover-card-bg-color: #eaeaea; /* 卡片悬停背景 */
+  --header-border-color: #ccc; /* 标题分隔线 */
+  --name-color: #000000; /* 名字颜色 */
+  --id-color: #666666; /* ID 颜色 */
+  --modal-bg-color: rgba(225, 225, 225, 0.4); /* 模态框半透背景 */
+  --modal-border-color: #bbb; /* 模态框边框 */
+  --modal-text-color: #333333; /* 模态框文字 */
+  --link-color: #0056b3; /* 链接颜色 */
+  --switcher-bg: #e0e0e0; /* 切换器背景 */
+  --switcher-border: #aaa; /* 切换器边框 */
+  --switcher-text: #333333; /* 切换器文字/图标颜色 - 浅色模式下为深色 */
+
+  /* 浅色主题下按钮应使用的颜色 */
+  --theme-switcher-icon-color-light: var(--switcher-text); /* #333333 */
+  /* 深色主题下按钮应使用的颜色，在浅色主题下也需要定义，但优先级低于根 */
+  /* 不需要重新定义 --theme-switcher-icon-color-dark，它在根中已定义 */
+}
+
+/* --- 基础页面样式 --- */
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  margin: 0;
+  padding: 20px;
+  line-height: 1.6;
+  transition: background-color 0.3s, color 0.3s; /* 平滑过渡 */
+}
+
+/* --- 页面标题样式 --- */
+h1 {
+  text-align: center; /* 居中对齐 */
+  margin: 20px 0; /* 调整上下边距 */
+  color: var(--text-color); /* 使用主题颜色 */
+  font-size: 1.8em; /* 可选：调整字体大小 */
+}
+
+/* --- 模式切换按钮 --- */
+.theme-switcher {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 999;
+  background-color: var(--switcher-bg);
+  border: 1px solid var(--switcher-border);
+  cursor: pointer;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.3s, border-color 0.3s;
+
+  /* --- 新增：为 SVG 图标设置默认颜色 --- */
+  color: var(--theme-icon-dark-mode-color); /* 默认使用深色模式下的图标颜色 */
+}
+
+/* 当 body 有 light-theme 类时，切换器按钮的颜色变为浅色主题图标色 */
+.light-theme .theme-switcher {
+  color: var(--theme-icon-light-mode-color);
+}
+
+/* 为按钮添加悬停效果 */
+.theme-switcher:hover {
+  background-color: var(--hover-card-bg-color); /* 使用主题变量 */
+  border-color: var(--link-color); /* 使用主题变量作为悬停边框色 */
+}
+
+/* --- SVG 图标颜色 --- */
+/* 这个规则确保按钮内的 SVG 图标使用按钮自身的 color 值 */
+.theme-switcher svg {
+  /* 使用 currentColor 关键字，它会继承父元素的 color 值 */
+  stroke: currentColor;
+  fill: currentColor; /* 如果图标有填充部分，也应用当前颜色 */
+
+  /* 确保图标具有正确的大小 */
+  width: 100%;
+  height: 100%;
+  max-width: 24px; /* 限制图标最大尺寸 */
+  max-height: 24px; /* 限制图标最大尺寸 */
+  pointer-events: none; /* 防止 SVG 本身拦截鼠标事件 */
+}
+
+/* --- 弹窗遮罩层 (确保层级高于切换器) --- */
+.modal-overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.4); /* 确保 z-index 高于切换器 */
+  z-index: 1000; /* 必须高于 theme-switcher 的 z-index */
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+/* --- 弹窗主体 (确保层级高于切换器和遮罩) --- */
+.modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0.9);
+  background-color: var(--modal-bg-color);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid var(--modal-border-color);
+  padding: 30px; /* 确保 z-index 高于遮罩层 */
+  z-index: 1001; /* 必须高于 modal-overlay 的 z-index */
+  width: calc(100vw - 100px);
+  max-width: 800px;
+  height: calc(100vh - 100px);
+  max-height: 600px;
+  overflow-y: auto; /* 启用垂直滚动 */
+  border-radius: 8px;
+  box-sizing: border-box;
+  opacity: 0;
+  visibility: hidden;
+  transition: transform 0.3s ease, opacity 0.3s ease, visibility 0.3s ease;
+  color: var(--modal-text-color);
+  display: flex; /* 使用 flexbox 布局 */
+  flex-direction: column; /* 垂直方向 */
+}
+
+/* --- 墓碑网格容器 --- */
+.tombstone-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 20px;
+  max-width: 1200px;
+  margin: 0 auto 30px; /* 底部留出空间给分页 */
+}
+
+/* --- 单个墓碑样式 --- */
+.tombstone {
+  background-color: var(--card-bg-color);
+  border: 1px solid var(--card-border-color);
+  padding: 15px;
+  text-align: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  cursor: pointer;
+  transition: transform 0.2s ease-in-out, background-color 0.2s ease-in-out;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-radius: 8px; /* 添加圆角 */
+}
+.tombstone:hover {
+  background-color: var(--hover-card-bg-color);
+  transform: translateY(-2px);
+}
+
+/* --- 修正头像样式以确保正圆 --- */
+.tombstone img {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 2px solid var(--card-border-color);
+  margin-bottom: 10px;
+}
+.tombstone .name {
+  font-weight: bold;
+  font-size: 1.1em;
+  margin: 5px 0 2px;
+  color: var(--name-color);
+  word-break: break-word; /* 确保长单词换行 */
+}
+.tombstone .id {
+  font-size: 0.8em;
+  color: var(--id-color);
+  margin: 0;
+}
+
+/* --- 弹窗遮罩层 --- */
+.modal-overlay.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* --- 弹窗主体 - 响应式尺寸和亚克力效果 --- */
+.modal.active {
+  transform: translate(-50%, -50%) scale(1); /* 恢复正常大小 */
+  opacity: 1;
+  visibility: visible;
+}
+
+/* --- 对于较大屏幕的媒体查询，应用2/3比例 --- */
+@media (min-width: 1200px) and (min-height: 900px) {
+  .modal {
+    width: 66.66%;
+    height: 66.66%;
+    max-width: none;
+    max-height: none;
+  }
+}
+
+/* --- 弹窗头部 --- */
+.modal-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+  border-bottom: 1px solid var(--header-border-color); /* 分隔线 */
+  padding-bottom: 15px;
+  flex-shrink: 0; /* 防止头部被压缩 */
+}
+
+/* --- 弹窗头像样式 --- */
+.modal-header img {
+  width: 120px; /* 固定宽度 */
+  height: 120px; /* 固定高度，与宽度相同，确保是正方形 */
+  object-fit: cover; /* 裁剪图像以覆盖整个容器 */
+  border-radius: 50%; /* 形成圆形 */
+  border: 3px solid var(--modal-border-color); /* 边框 */
+  margin-right: 20px; /* 新增：确保边框包含在宽高内，防止因边框导致的轻微溢出或尺寸计算偏差 */
+  box-sizing: border-box; /* 新增：防止图像被拉伸或挤压 */
+  flex-shrink: 0;
+}
+.modal-header .modal-name-id {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+.modal-header .modal-name {
+  font-size: 1.5em;
+  font-weight: bold;
+  color: var(--name-color); /* 使用主题变量 */
+  margin: 0 0 5px 0;
+}
+.modal-header .modal-id {
+  font-size: 0.9em;
+  color: var(--id-color); /* 使用主题变量 */
+  margin: 0 0 5px 0; /* 底部增加一点边距，与创建日期分开 */
+}
+
+/* --- 弹窗创建日期样式 --- */
+.modal-header .modal-created {
+  font-size: 0.8em; /* 字体更小一点 */
+  color: var(--id-color); /* 可以使用与 ID 相同的颜色，或更浅 */
+  margin: 0; /* 重置默认边距 */
+  opacity: 0.8; /* 使其看起来更不显眼 */
+  flex-shrink: 0; /* 防止日期被压缩 */
+}
+
+/* --- 弹窗内容区域 --- */
+.modal-content {
+  margin-bottom: 20px;
+  flex-grow: 1; /* 占据剩余空间 */
+  display: flex;
+  flex-direction: column;
+  min-height: 0; /* 允许内部内容溢出时滚动 */
+}
+.modal-content .modal-epitaph {
+  font-size: 1.1em;
+  line-height: 1.8;
+  white-space: pre-wrap; /* 保留换行符并允许自动换行 */
+  overflow-wrap: break-word; /* 确保超长行也能换行 */
+  flex-grow: 1; /* 碑文占据主要内容空间 */
+  margin-bottom: 15px; /* 与链接之间留出空间 */
+}
+.modal-content .modal-links {
+  margin-top: auto; /* 推动链接到底部 */
+  flex-shrink: 0; /* 防止链接区域被压缩 */
+}
+.modal-content .modal-links a {
+  display: inline-block;
+  color: var(--link-color); /* 使用主题变量 */
+  text-decoration: none;
+  margin-right: 15px;
+  font-size: 0.9em;
+}
+.modal-content .modal-links a:hover {
+  text-decoration: underline;
+}
+
+/* --- 关闭按钮 --- */
+.close-modal {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  font-size: 1.5em;
+  font-weight: bold;
+  color: var(--close-btn-color); /* 使用主题变量 */
+  cursor: pointer;
+  background: none;
+  border: none;
+  padding: 0;
+}
+.close-modal:hover {
+  color: var(--close-btn-hover-color); /* 使用主题变量 */
+}
+
+/* --- 分页导航样式 --- */
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin-top: 30px;
+  color: var(--text-color);
+}
+.pagination a, .pagination span {
+  color: var(--pagination-link-color); /* 使用主题变量 */
+  float: left;
+  padding: 8px 16px;
+  text-decoration: none;
+  margin: 0 4px;
+  border-radius: 4px;
+}
+.pagination a:hover:not(.active) {
+  background-color: var(--hover-card-bg-color); /* 使用主题变量 */
+}
+.pagination .active {
+  /* background-color: var(--pagination-active-bg); 使用主题变量 */
+  /* color: white; */
+  background-color: #007bff; /* 蓝色背景 */
+  color: white; /* 白色文字 */
+  border-radius: 4px; /* 圆角 */
+  font-weight: bold; /* 可选：加粗文字 */
+}
+
+/* --- 响应式设计：小屏幕 (手机) --- */
+@media (max-width: 768px) {
+  /* --- 调整页面标题 --- */
+  h1 {
+    font-size: 1.5em; /* 减小主标题字体 */
+    margin: 10px 0; /* 可选：调整上下边距 */
+  }
+
+  /* --- 调整墓碑卡片 --- */
+  .tombstone-container {
+    gap: 10px; /* 减小卡片间距 */
+    padding: 0 10px; /* 给容器左右留一点边距 */
+  }
+  .tombstone {
+    padding: 10px; /* 减小卡片内边距 */
+  }
+  .tombstone img {
+    width: 60px; /* 减小卡片内头像尺寸 */
+    height: 60px; /* 减小卡片内头像尺寸 */
+  }
+  .tombstone .name {
+    font-size: 0.9em; /* 减小卡片内姓名字体 */
+    margin: 3px 0 1px; /* 调整间距 */
+  }
+  .tombstone .id {
+    font-size: 0.7em; /* 减小卡片内 ID 字体 */
+  }
+
+  /* --- 调整弹窗 --- */
+  .modal {
+    width: calc(100vw - 20px); /* 减小宽度，留出更多边距 */
+    height: calc(100vh - 20px); /* 减小高度，留出更多边距 */
+    max-height: 90vh; /* 限制最大高度 */
+    padding: 20px; /* 调整弹窗内边距 */
+    max-width: 95vw; /* 限制最大宽度 */
+  }
+  .modal-header {
+    flex-direction: column; /* 将头像和文字垂直排列 */
+    text-align: center; /* 文字居中 */
+    align-items: center; /* 头像和文字都居中对齐 */
+    margin-bottom: 10px; /* 调整底部边距 */
+  }
+  .modal-header img {
+    width: 100px; /* 减小弹窗内头像尺寸 */
+    height: 100px; /* 减小弹窗内头像尺寸 */
+    margin-right: 0; /* 移除右边距，因为是垂直布局 */
+    margin-bottom: 10px; /* 添加底部边距，分隔头像和文字 */
+  }
+  .modal-header .modal-name {
+    font-size: 1.2em; /* 减小弹窗内姓名字体 */
+    margin: 0 0 5px 0; /* 调整间距 */
+  }
+  .modal-header .modal-id {
+    font-size: 0.8em; /* 减小弹窗内 ID 字体 */
+    margin: 0 0 3px 0; /* 调整间距 */
+  }
+  /* --- 小屏下创建日期样式 --- */
+  .modal-header .modal-created {
+    font-size: 0.75em; /* 小屏下调小创建日期字体 */
+    margin: 0; /* 确保没有多余边距 */
+  }
+  .modal-content .modal-epitaph {
+    font-size: 1em; /* 减小墓志铭字体 */
+    line-height: 1.6; /* 调整行高 */
+  }
+  .modal-content .modal-links a {
+    font-size: 0.85em; /* 减小链接字体 */
+    margin-right: 10px; /* 调整链接间距 */
+  }
+
+  /* --- 调整关闭按钮 --- */
+  .close-modal {
+    font-size: 1.2em; /* 减小关闭按钮字体 */
+    top: 10px; /* 调整位置 */
+    right: 10px; /* 调整位置 */
+  }
+
+  /* --- 调整分页导航 --- */
+  .pagination {
+    margin-top: 20px; /* 调整分页导航顶部边距 */
+  }
+  .pagination a, .pagination span {
+    padding: 6px 12px; /* 减小分页按钮内边距 */
+    font-size: 0.9em; /* 减小分页按钮字体 */
+    margin: 0 2px; /* 调整分页按钮间距 */
+  }
+
+  /* 调整主题切换按钮 */
+  .theme-switcher {
+    width: 35px; /* 小屏下稍微小一点 */
+    height: 35px; /* 小屏下稍微小一点 */
+    top: 15px; /* 调整位置 */
+    right: 15px; /* 调整位置 */
+  }
+}
+
+/* 可选：针对更小的屏幕 (如旧款手机) */
+@media (max-width: 480px) {
+  h1 {
+    font-size: 1.3em; /* 进一步减小主标题 */
+  }
+  .modal-header .modal-name {
+    font-size: 1.1em; /* 进一步减小弹窗内姓名 */
+  }
+  .modal-header .modal-id {
+    font-size: 0.75em; /* 进一步减小弹窗内 ID */
+  }
+  .modal-content .modal-epitaph {
+    font-size: 0.95em; /* 进一步减小墓志铭 */
+  }
+  .modal-content .modal-links a {
+    font-size: 0.8em; /* 进一步减小链接 */
+    margin-right: 8px; /* 进一步调整链接间距 */
+  }
+
+  /* 调整主题切换按钮 */
+  .theme-switcher {
+    width: 35px; /* 小屏下稍微小一点 */
+    height: 35px; /* 小屏下稍微小一点 */
+    top: 15px; /* 调整位置 */
+    right: 15px; /* 调整位置 */
+  }
+}
+
+/* --- 页面内容淡入动画 --- */
+.page-content {
+  opacity: 0;
+  animation: fadeIn 0.4s ease-in forwards;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    /* 可选：可以配合一点位移，让效果更自然 */
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

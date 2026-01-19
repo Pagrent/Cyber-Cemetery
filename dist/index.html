@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cyber Cemetery - Page 1</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+<!-- 固定定位的组件：主题切换按钮 -->
+<div class="theme-switcher" title="Toggle Light/Dark Mode">
+    <!-- SVG 内容将在 JS 中动态加载 -->
+</div>
+
+<!-- 只包含主要内容的动画容器 -->
+<div class="page-content">
+    <h1 id="page-title">Cyber Cemetery - Page 1</h1>
+
+    <div class="tombstone-container">
+        <!-- Tombstone elements will be injected here by JavaScript -->
+    </div>
+
+    <!-- Pagination -->
+    <div class="pagination">
+        <!-- Links will be injected here by JavaScript -->
+    </div>
+</div> <!-- End of .page-content -->
+
+<!-- 固定定位的组件：模态框遮罩和结构 -->
+<!-- Modal Overlay -->
+<div class="modal-overlay">
+    <!-- Modal will be injected here by JavaScript -->
+</div>
+
+<!-- Modal Structure -->
+<div class="modal">
+    <button class="close-modal">&times;</button>
+    <div class="modal-header">
+        <img id="modal-avatar" src="" alt="Avatar">
+        <div class="modal-name-id">
+            <h2 id="modal-name"></h2>
+            <p id="modal-id"></p>
+            <p id="modal-created" style="display: none;"></p> <!-- Added for creation date -->
+        </div>
+    </div>
+    <div class="modal-content">
+        <pre id="modal-epitaph" class="modal-epitaph"></pre>
+        <div class="modal-links" id="modal-links">
+            <!-- Links will be injected here by JavaScript -->
+        </div>
+    </div>
+</div>
+
+<script>
+    // --- Page Data Injection Point ---
+    // This block will be replaced by the generator with actual data.
+    window.PAGE_DATA = [{"avatar": "/assets/m.png", "epitaph": "这里写碑文。\n数字世界的灵魂片段，永远连接于虚空。", "created": "2026-01-18", "links": [{"url": "http://lolibest.top/", "title": "lolibest"}, {"url": "https://github.com/Pagrent", "title": "GitHub"}], "id": "1", "name": "Pagrent"}];
+    window.CURRENT_PAGE_NUMBER = 1;
+    window.TOTAL_PAGES = 1;
+    // Example data structure for reference (not used when generator replaces it):
+    /*
+    window.PAGE_DATA = [
+        {
+            "id": "1",
+            "name": "Example Name 1",
+            "avatar": "https://via.placeholder.com/150",
+            "epitaph": "Here lies an example.",
+            "created": "2023-01-01",
+            "links": [{"url": "https://example.com", "title": "Example Link"}]
+        },
+        // ... more items up to PER_PAGE count
+    ];
+    */
+</script>
+<script src="js/main.js"></script>
+
+</body>
+</html>
